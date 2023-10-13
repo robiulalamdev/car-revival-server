@@ -6,7 +6,6 @@ export type IUser = {
   role: string;
   contactNo: string;
   address: string;
-  profileImg: string;
 };
 
 export type IUserSigninResponse = {

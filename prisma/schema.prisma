@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,63 +8,62 @@ datasource db {
 }
 
 model User {
-  id              String            @id @default(uuid())
-  name            String
-  email           String            @unique
-  password        String
-  role            String // 'admin' or 'customer'
-  contactNo       String
-  address         String
-  profileImg      String
-  ReviewAndRating ReviewAndRating[]
-  orders          Order[]
+  id        String            @id @default(uuid())
+  name      String
+  email     String            @unique
+  password  String
+  role      String
+  contactNo String
+  address   String
+  verified  Boolean
+  otp       String
+  reviews   ReviewAndRating[]
+  orders    Order[]
 
   @@map("user")
 }
 
 model Category {
-  id    String @id @default(uuid())
-  title String
-  books Book[]
+  id       String    @id @default(uuid())
+  title    String
+  services Service[]
 
   @@map("category")
 }
 
-model Book {
-  id              String @id @default(uuid())
-  title           String
-  author          String
-  price           Float
-  genre           String
-  publicationDate String
+model Service {
+  id         String            @id @default(uuid())
+  title      String
+  price      Float
+  categoryId String
+  reviews    ReviewAndRating[]
 
-  category         Category          @relation(fields: [categoryId], references: [id])
-  categoryId       String
-  reviewAndRatings ReviewAndRating[]
+  category Category @relation(fields: [categoryId], references: [id])
 
-  @@map("book")
+  @@map("service")
 }
 
 model ReviewAndRating {
-  id     String @id @default(uuid())
-  review String
-  rating Int
-  userId String
-  bookId String
-  user   User   @relation(fields: [userId], references: [id])
-  book   Book   @relation(fields: [bookId], references: [id])
+  id        String @id @default(uuid())
+  review    String
+  rating    Int
+  userId    String
+  serviceId String
+
+  user    User    @relation(fields: [userId], references: [id])
+  service Service @relation(fields: [serviceId], references: [id])
 
   @@map("reviewAndRating")
 }
 
 model Order {
-  id           String   @id @default(uuid())
-  orderedBooks Json
-  status       String   @default("pending")
-  createdAt    DateTime @default(now())
+  id              String   @id @default(uuid())
+  orderedServices Json
+  status          String   @default("pending")
+  createdAt       DateTime @default(now())
+  userId          String
 
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
+  user User @relation(fields: [userId], references: [id])
 
   @@map("order")
 }

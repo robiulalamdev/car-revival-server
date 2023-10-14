@@ -8,19 +8,40 @@ datasource db {
 }
 
 model User {
-  id        String            @id @default(uuid())
-  name      String
-  email     String            @unique
-  password  String
-  role      String            @default("customer")
-  contactNo String
-  address   String
-  verified  Boolean
-  otp       String
-  reviews   ReviewAndRating[]
-  orders    Order[]
+  id           String            @id @default(uuid())
+  name         String
+  email        String            @unique
+  password     String
+  role         String            @default("customer")
+  contactNo    String
+  address      String
+  verified     Boolean
+  otp          String
+  dateOfBirth  DateTime?
+  gender       String?
+  about        String?
+  profession   String?
+  reviews      ReviewAndRating[]
+  orders       Order[]
+  user_address Address[]
 
   @@map("user")
+}
+
+model Address {
+  id          String @id @default(uuid())
+  street      String
+  city        String
+  state       String
+  postalCode  String
+  country     String
+  contactNo   String
+  description String
+  type        String @default("primary")
+  userId      String @unique
+  user        User   @relation(fields: [userId], references: [id])
+
+  @@map("address")
 }
 
 model Category {
@@ -32,11 +53,13 @@ model Category {
 }
 
 model Service {
-  id         String            @id @default(uuid())
-  title      String
-  price      Float
-  categoryId String
-  reviews    ReviewAndRating[]
+  id          String            @id @default(uuid())
+  name        String
+  price       String
+  duration    Int
+  description String
+  categoryId  String
+  reviews     ReviewAndRating[]
 
   category Category @relation(fields: [categoryId], references: [id])
 
@@ -72,6 +95,7 @@ model Order {
   totalAmount Float
   status      String   @default("pending")
   createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
   userId      String
 
   user User @relation(fields: [userId], references: [id])

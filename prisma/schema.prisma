@@ -12,7 +12,7 @@ model User {
   name      String
   email     String            @unique
   password  String
-  role      String
+  role      String            @default("customer")
   contactNo String
   address   String
   verified  Boolean
@@ -56,12 +56,23 @@ model ReviewAndRating {
   @@map("reviewAndRating")
 }
 
+model Appointment {
+  id         String   @id @default(uuid())
+  date       DateTime
+  start_time DateTime
+  end_time   DateTime
+
+  @@map("appointment")
+}
+
 model Order {
-  id              String   @id @default(uuid())
-  orderedServices Json
-  status          String   @default("pending")
-  createdAt       DateTime @default(now())
-  userId          String
+  id          String   @id @default(uuid())
+  serviceId   Int
+  timeSlotId  Int
+  totalAmount Float
+  status      String   @default("pending")
+  createdAt   DateTime @default(now())
+  userId      String
 
   user User @relation(fields: [userId], references: [id])
 

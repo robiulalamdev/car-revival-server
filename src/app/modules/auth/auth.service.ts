@@ -9,14 +9,14 @@ import { IUser, IUserSignin, IUserSigninResponse } from './auth.interface';
 import { selectUserFields } from './auth.utils';
 const prisma = new PrismaClient();
 
-const create = async (data: User): Promise<IUser> => {
+const createUser = async (data: User): Promise<IUser> => {
+  console.log(data)
   data.password = await bcrypt.hash(
     data.password,
     Number(config.bycrypt_salt_rounds)
   );
   const result = await prisma.user.create({
-    data,
-    select: selectUserFields(),
+    data
   });
   return result;
 };
@@ -39,9 +39,8 @@ const signin = async (data: IUserSignin): Promise<IUserSigninResponse> => {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Password is incorrect');
   }
 
-  const { id, role } = isUserExist;
   const token = jwtHelpers.createToken(
-    { id, role },
+    isUserExist,
     config.jwt.secret as Secret,
     config.jwt.expires_in as string
   );
@@ -50,6 +49,6 @@ const signin = async (data: IUserSignin): Promise<IUserSigninResponse> => {
 };
 
 export const AuthService = {
-  create,
+  createUser,
   signin,
 };

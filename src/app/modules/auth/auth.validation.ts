@@ -18,10 +18,7 @@ const signup = z.object({
     contactNo: z.string({
       required_error: 'Contact No is Required',
     }),
-    address: z.string({
-      required_error: 'Address is Required',
-    }),
-    profileImg: z.string({
+    image: z.string({
       required_error: 'Profile Img is Required',
     }),
   }),
@@ -34,6 +31,17 @@ const signing = z.object({
     }),
     password: z.string({
       required_error: 'Password is Required',
+    }),
+  }),
+});
+
+const emailVerify = z.object({
+  body: z.object({
+    email: z.string({
+      required_error: 'Email is Required',
+    }),
+    otp: z.string({
+      required_error: 'Otp is Required',
     }),
   }),
 });
@@ -52,6 +60,7 @@ const update = z.object({
 
 export const AuthValidation = {
   signup,
+  emailVerify,
   update,
   signing,
 };

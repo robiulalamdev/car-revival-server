@@ -14,9 +14,9 @@ model User {
   password     String
   role         String            @default("customer")
   contactNo    String
-  address      String
-  verified     Boolean
+  verified     Boolean           @default(false)
   otp          String
+  image        String
   dateOfBirth  DateTime?
   gender       String?
   about        String?
@@ -38,7 +38,7 @@ model Address {
   contactNo   String
   description String
   type        String @default("primary")
-  userId      String @unique
+  userId      String
   user        User   @relation(fields: [userId], references: [id])
 
   @@map("address")

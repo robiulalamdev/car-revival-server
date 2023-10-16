@@ -1,5 +1,6 @@
 // Function to select user fields excluding 'password'
 import nodemailer from "nodemailer";
+import { IUser } from "./auth.interface";
 
 export function selectUserFields() {
   return {
@@ -8,23 +9,23 @@ export function selectUserFields() {
     email: true,
     role: true,
     contactNo: true,
-    address: true,
-    profileImg: true,
+    image: true,
+    verified: true
   };
 }
 
 
-const sendVerificationCode = async (user: any, otp: string) => {
+const sendVerificationCode = async (user: IUser, otp: string) => {
   const transporter = nodemailer.createTransport({
     service: "Gmail",
     auth: {
-      user: "mohisilva1@gmail.com",
-      pass: "peqprjkgjiikugvk",
+      user: "robiulalamdx@gmail.com",
+      pass: "astr lfxu jcnf kvfc",
     },
   });
 
   const mailOptions = {
-    from: "mohisilva1@gmail.com",
+    from: "robiulalamdx@gmail.com",
     to: user?.email,
     subject: "Email Verification",
     html: `

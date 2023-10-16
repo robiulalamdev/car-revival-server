@@ -1,3 +1,4 @@
+
 export type IUser = {
   id: string;
   name: string;
@@ -5,8 +6,14 @@ export type IUser = {
   password?: string;
   role: string;
   contactNo: string;
-  address: string;
-};
+  verified?: boolean;
+  otp?: string;
+  dateOfBirth?: Date | null;
+  gender?: string | null;
+  about?: string | null;
+  profession?: string | null;
+}
+
 
 export type IUserSigninResponse = {
   token: string;

@@ -15,5 +15,10 @@ router.post(
   validateRequest(AuthValidation.signing),
   AuthController.sginin
 );
+router.post(
+  '/verify-email',
+  validateRequest(AuthValidation.emailVerify),
+  AuthController.emailVerification
+);
 
 export const AuthRoutes = router;

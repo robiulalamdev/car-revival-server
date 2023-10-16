@@ -20,5 +20,9 @@ router.post(
   validateRequest(AuthValidation.emailVerify),
   AuthController.emailVerification
 );
+router.post(
+  '/forget-password',
+  AuthController.forgetPassword
+);
 
 export const AuthRoutes = router;

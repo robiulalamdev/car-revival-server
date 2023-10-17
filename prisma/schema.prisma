@@ -21,15 +21,17 @@ model User {
   gender       String?
   about        String?
   profession   String?
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
   reviews      ReviewAndRating[]
-  orders       Order[]
   user_address Address[]
+  booking      Booking[]
 
   @@map("user")
 }
 
 model Address {
-  id          String @id @default(uuid())
+  id          String   @id @default(uuid())
   street      String
   city        String
   state       String
@@ -37,17 +39,25 @@ model Address {
   country     String
   contactNo   String
   description String
-  type        String @default("primary")
+  type        String   @default("primary")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
   userId      String
-  user        User   @relation(fields: [userId], references: [id])
+  user        User     @relation(fields: [userId], references: [id])
 
   @@map("address")
 }
 
 model Category {
-  id       String    @id @default(uuid())
-  title    String
-  services Service[]
+  id              String            @id @default(uuid())
+  name            String
+  image           String
+  details         String
+  faq             Json
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  services        Service[]
+  reviewAndRating ReviewAndRating[]
 
   @@map("category")
 }
@@ -56,49 +66,89 @@ model Service {
   id          String            @id @default(uuid())
   name        String
   price       String
+  features    String[]
   duration    Int
   description String
   categoryId  String
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
   reviews     ReviewAndRating[]
 
-  category Category @relation(fields: [categoryId], references: [id])
+  category     Category   @relation(fields: [categoryId], references: [id])
+  availability TimeSlot[]
+  booking      Booking[]
 
   @@map("service")
 }
 
 model ReviewAndRating {
-  id        String @id @default(uuid())
-  review    String
-  rating    Int
-  userId    String
-  serviceId String
+  id         String @id @default(uuid())
+  review     String
+  rating     Int
+  userId     String
+  serviceId  String
+  categoryId String
 
-  user    User    @relation(fields: [userId], references: [id])
-  service Service @relation(fields: [serviceId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user     User     @relation(fields: [userId], references: [id])
+  category Category @relation(fields: [categoryId], references: [id])
+  service  Service  @relation(fields: [serviceId], references: [id])
 
   @@map("reviewAndRating")
 }
 
-model Appointment {
-  id         String   @id @default(uuid())
-  date       DateTime
-  start_time DateTime
-  end_time   DateTime
+model TimeSlot {
+  id        String   @id @default(uuid())
+  service   Service  @relation(fields: [serviceId], references: [id])
+  serviceId String
+  date      DateTime
+  startTime DateTime
+  endTime   DateTime
 
-  @@map("appointment")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Booking   Booking[]
+
+  @@map("timeSlot")
 }
 
-model Order {
+model Booking {
+  id         String   @id @default(uuid())
+  userId     String
+  serviceId  String
+  timeSlotId String
+  startTime  DateTime
+  endTime    DateTime
+  status     String   @default("pending")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  user     User     @relation(fields: [userId], references: [id])
+  service  Service  @relation(fields: [serviceId], references: [id])
+  timeSlot TimeSlot @relation(fields: [timeSlotId], references: [id])
+
+  @@map("booking")
+}
+
+model Faq {
+  id        String   @id @default(uuid())
+  question  String
+  answare   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("faq")
+}
+
+model Blog {
   id          String   @id @default(uuid())
-  serviceId   Int
-  timeSlotId  Int
-  totalAmount Float
-  status      String   @default("pending")
+  title       String
+  description String
+  image       String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  userId      String
 
-  user User @relation(fields: [userId], references: [id])
-
-  @@map("order")
+  @@map("blog")
 }

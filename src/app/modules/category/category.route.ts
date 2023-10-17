@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.post(
   '/create-category',
-  auth(ENUM_USER_ROLE.ADMIN),
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
   validateRequest(CategoryValidation.create),
   CategoryController.create
 );
@@ -18,14 +18,14 @@ router.get('/:id', CategoryController.getSingle);
 
 router.patch(
   '/:id',
-  auth(ENUM_USER_ROLE.ADMIN),
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
   validateRequest(CategoryValidation.update),
   CategoryController.update
 );
 
 router.delete(
   '/:id',
-  auth(ENUM_USER_ROLE.ADMIN),
+  auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN),
   CategoryController.deleteSingle
 );
 

@@ -17,6 +17,12 @@ const categorySchema = new Schema<ICategory>(
             type: String,
             required: true,
         },
+        status: {
+            type: String,
+            enum: ["show", "hide"],
+            default: "show",
+            required: true,
+        },
     },
     {
         timestamps: true,

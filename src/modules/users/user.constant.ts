@@ -1,0 +1,1 @@
+export const userRoleEnum: string[] = ['admin', 'super_admin', 'customer']

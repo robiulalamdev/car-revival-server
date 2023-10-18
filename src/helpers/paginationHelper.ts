@@ -1,8 +1,10 @@
+import { SortOrder } from 'mongoose';
+
 type IOptions = {
   page?: number;
   limit?: number;
   sortBy?: string;
-  sortOrder?: string;
+  sortOrder?: SortOrder;
 };
 
 type IOptionsResult = {
@@ -10,7 +12,7 @@ type IOptionsResult = {
   limit: number;
   skip: number;
   sortBy: string;
-  sortOrder: string;
+  sortOrder: SortOrder;
 };
 
 const calculatePagination = (options: IOptions): IOptionsResult => {

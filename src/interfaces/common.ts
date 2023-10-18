@@ -1,11 +1,10 @@
-import { IGenericErrorMessage } from './error';
+import { IGenericErrorMessages } from './IGenericErrorMessages';
 
 export type IGenericResponse<T> = {
   meta: {
     page: number;
-    size: number;
+    limit: number;
     total: number;
-    totalPage: number;
   };
   data: T;
 };
@@ -13,5 +12,5 @@ export type IGenericResponse<T> = {
 export type IGenericErrorResponse = {
   statusCode: number;
   message: string;
-  errorMessages: IGenericErrorMessage[];
+  errorMessages: IGenericErrorMessages[];
 };

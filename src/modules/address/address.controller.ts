@@ -5,6 +5,7 @@ import pick from '../../shared/pick';
 import { paginationFields } from '../../constants/pagination';
 import { AddressService } from './address.service';
 import { IAddress } from './address.interface';
+import { addressFilterableFields } from './address.constant';
 
 const createAddress: RequestHandler = async (req, res, next) => {
     try {
@@ -23,10 +24,10 @@ const createAddress: RequestHandler = async (req, res, next) => {
 // get cows by pagination 
 const getAddressByDynamic: RequestHandler = async (req, res, next) => {
     try {
-        const filters = pick(req.query, categoryFilterableFields);
+        const filters = pick(req.query, addressFilterableFields);
         const paginationOptions = pick(req.query, paginationFields);
 
-        const result = await AddressService.getAllCategoriesByPagination(
+        const result = await AddressService.getAllAddressByPagination(
             filters,
             paginationOptions
         );
@@ -34,7 +35,7 @@ const getAddressByDynamic: RequestHandler = async (req, res, next) => {
         sendResponse<IAddress[]>(res, {
             statusCode: httpStatus.OK,
             success: true,
-            message: 'categories retrieved successfully !',
+            message: 'Address retrieved successfully !',
             meta: result.meta,
             data: result.data,
         });
@@ -44,13 +45,13 @@ const getAddressByDynamic: RequestHandler = async (req, res, next) => {
 };
 
 // get all cows 
-const getAllCategories: RequestHandler = async (req, res, next) => {
+const getAllAddresses: RequestHandler = async (req, res, next) => {
     try {
-        const result = await AddressService.getCategories();
+        const result = await AddressService.getAddresses();
         sendResponse(res, {
             success: true,
             statusCode: httpStatus.OK,
-            message: 'Categories retrieved successfully',
+            message: 'Address retrieved successfully',
             data: result,
         });
     } catch (error) {
@@ -62,6 +63,22 @@ const getAllCategories: RequestHandler = async (req, res, next) => {
 const getSingleAddress: RequestHandler = async (req, res, next) => {
     try {
         const result = await AddressService.getSingleAddressById(req.params.id);
+        sendResponse(res, {
+            success: true,
+            statusCode: httpStatus.OK,
+            message: 'Address retrieved successfully',
+            data: result,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+
+const getUserAddress: RequestHandler = async (req, res, next) => {
+    try {
+        const { userId } = (req as any).user
+        const result = await AddressService.getAddressByUserId(userId);
         sendResponse(res, {
             success: true,
             statusCode: httpStatus.OK,
@@ -89,13 +106,13 @@ const updateAddressInfo: RequestHandler = async (req, res, next) => {
 };
 
 // delete user 
-const deleteCategory: RequestHandler = async (req, res, next) => {
+const deleteAddress: RequestHandler = async (req, res, next) => {
     try {
-        const result = await AddressService.deleteCategoryById(req.params.id);
+        const result = await AddressService.deleteAddressById(req.params.id);
         sendResponse(res, {
             success: true,
             statusCode: httpStatus.OK,
-            message: 'Category deleted successfully',
+            message: 'Address deleted successfully',
             data: result,
         });
     } catch (error) {
@@ -103,11 +120,12 @@ const deleteCategory: RequestHandler = async (req, res, next) => {
     }
 };
 
-export const CategoryController = {
+export const AddressController = {
     createAddress,
     getAddressByDynamic,
-    getAllCategories,
+    getAllAddresses,
     getSingleAddress,
     updateAddressInfo,
-    deleteCategory,
+    getUserAddress,
+    deleteAddress,
 };

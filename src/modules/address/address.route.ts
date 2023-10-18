@@ -2,7 +2,7 @@ import express from 'express';
 import validateRequest from '../../middlewares/validateRequest';
 import auth from '../../middlewares/auth';
 import { ENUM_USER_ROLE } from '../../enums/user';
-import { CategoryController } from './address.controller';
+import { AddressController } from './address.controller';
 import { AddressValidation } from './address.validation';
 const router = express.Router();
 
@@ -14,16 +14,16 @@ router.post(
         ENUM_USER_ROLE.SUPER_ADMIN,
         ENUM_USER_ROLE.CUSTOMER,
     ),
-    CategoryController.createCategory
+    AddressController.createAddress
 );
 
 
-router.get('/all', CategoryController.getAllCategories);
+router.get('/all', AddressController.getAllAddresses);
 
 // get cows by pagination 
-router.get('/', CategoryController.getCategoriesByDynamic);
+router.get('/', AddressController.getAddressByDynamic);
 
-router.get('/:id', CategoryController.getSingleCategory);
+router.get('/:id', AddressController.getSingleAddress);
 
 router.patch(
     '/:id',
@@ -33,7 +33,17 @@ router.patch(
         ENUM_USER_ROLE.SUPER_ADMIN,
         ENUM_USER_ROLE.CUSTOMER,
     ),
-    CategoryController.updateCategoryInfo
+    AddressController.updateAddressInfo
+);
+router.get(
+    '/user-address',
+    validateRequest(AddressValidation.update),
+    auth(
+        ENUM_USER_ROLE.ADMIN,
+        ENUM_USER_ROLE.SUPER_ADMIN,
+        ENUM_USER_ROLE.CUSTOMER,
+    ),
+    AddressController.getUserAddress
 );
 
 
@@ -42,6 +52,6 @@ router.delete('/:id',
         ENUM_USER_ROLE.ADMIN,
         ENUM_USER_ROLE.SUPER_ADMIN
     ),
-    CategoryController.deleteCategory);
+    AddressController.deleteAddress);
 
 export const serviceRoutes = router;

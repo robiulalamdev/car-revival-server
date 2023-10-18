@@ -24,7 +24,6 @@ const create = z.object({
         details: z.string({
             required_error: 'Details are required',
         }),
-        type: z.string().default('primary'),
         userId: z.string({
             required_error: 'User ID is required',
         }),

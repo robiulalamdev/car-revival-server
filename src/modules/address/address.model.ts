@@ -10,7 +10,6 @@ const addressSchema = new Schema<IAddress>(
         country: { type: String, required: true },
         contactNo: { type: String, required: true },
         details: { type: String, required: true },
-        type: { type: String, default: 'primary' },
         userId: { type: String, ref: "User", required: true },
     },
     {

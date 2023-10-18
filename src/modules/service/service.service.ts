@@ -92,13 +92,13 @@ const getAllServicesByPagination = async (
 
 // get all cows 
 const getServices = async (): Promise<IService[]> => {
-    const cows = await Service.find({}).populate('seller').sort({ _id: -1 });
+    const cows = await Service.find({}).sort({ _id: -1 });
     return cows;
 };
 
 // get single Cow 
 const getSingleServiceById = async (id: string): Promise<IService | null> => {
-    const cow = await Service.findOne({ _id: id }).populate('seller');
+    const cow = await Service.findOne({ _id: id })
     return cow;
 };
 
@@ -107,10 +107,10 @@ const updateServiceById = async (
     id: string,
     updateData: object
 ): Promise<IService | null> => {
-    const cow = await Service.findOneAndUpdate({ _id: id }, updateData, {
+    const result = await Service.findOneAndUpdate({ _id: id }, updateData, {
         new: true,
     });
-    return cow;
+    return result;
 };
 
 // delete cow 

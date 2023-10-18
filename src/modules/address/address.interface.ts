@@ -15,3 +15,8 @@ export type IAddress = {
 }
 
 export type AddressModel = Model<IAddress, Record<string, unknown>>;
+
+
+export type IAddressFilters = {
+    searchTerm?: string;
+};

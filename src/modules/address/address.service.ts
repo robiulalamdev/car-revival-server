@@ -1,22 +1,30 @@
-import { SortOrder } from 'mongoose';
+import { Address } from './address.model';
+import { IAddress, IAddressFilters } from './address.interface';
+import { addressSearchableFields } from './address.constant';
 import { paginationHelpers } from '../../helpers/paginationHelper';
-import { IPaginationOptions } from '../../interfaces/pagination';
 import { IGenericResponse } from '../../interfaces/common';
-import { ICategory, ICategoryFilters } from './category.interface';
-import { Category } from './category.model';
-import { categorySearchableFields } from './category.constant';
+import { IPaginationOptions } from '../../interfaces/pagination';
+import { SortOrder } from 'mongoose';
 
-const createCategory = async (data: ICategory): Promise<ICategory | null> => {
-    const newCate = new Category(data);
+const createAddress = async (data: IAddress): Promise<IAddress | null> => {
+    const newCate = new Address(data);
     const createdCate = await newCate.save();
     return createdCate;
 };
 
+
+// get all cows 
+const getAddresses = async (): Promise<IAddress[]> => {
+    const result = await Address.find({}).sort({ _id: -1 });
+    return result;
+};
+
+
 // get all cows by pagination 
-const getAllCategoriesByPagination = async (
-    filters: ICategoryFilters,
+const getAllAddressByPagination = async (
+    filters: IAddressFilters,
     paginationOptions: IPaginationOptions
-): Promise<IGenericResponse<ICategory[]>> => {
+): Promise<IGenericResponse<IAddress[]>> => {
     const { searchTerm, ...filtersData } = filters;
     const { page, limit, skip, sortBy, sortOrder } =
         paginationHelpers.calculatePagination(paginationOptions);
@@ -24,7 +32,7 @@ const getAllCategoriesByPagination = async (
 
     if (searchTerm) {
         andConditions.push({
-            $or: categorySearchableFields.map(field => {
+            $or: addressSearchableFields.map(field => {
                 const condition: Record<string, unknown> = {};
                 condition[field] = {
                     $regex: searchTerm,
@@ -54,12 +62,12 @@ const getAllCategoriesByPagination = async (
     const whereConditions =
         andConditions.length > 0 ? { $and: andConditions } : {};
 
-    const result = await Category.find(whereConditions)
+    const result = await Address.find(whereConditions)
         .sort(sortConditions)
         .skip(skip)
         .limit(limit);
 
-    const total = await Category.countDocuments();
+    const total = await Address.countDocuments();
 
     return {
         meta: {
@@ -71,40 +79,42 @@ const getAllCategoriesByPagination = async (
     };
 };
 
-// get all cows 
-const getCategories = async (): Promise<ICategory[]> => {
-    const cows = await Category.find({}).sort({ _id: -1 });
-    return cows;
+
+// get single Cow 
+const getSingleAddressById = async (id: string): Promise<IAddress | null> => {
+    const result = await Address.findOne({ _id: id })
+    return result;
 };
 
 // get single Cow 
-const getSingleCategoryById = async (id: string): Promise<ICategory | null> => {
-    const result = await Category.findOne({ _id: id })
+const getAddressByUserId = async (id: string): Promise<IAddress[]> => {
+    const result = await Address.find({ userId: id })
     return result;
 };
 
 // update cow info 
-const updateCategoryById = async (
+const updateAddressById = async (
     id: string,
     updateData: object
-): Promise<ICategory | null> => {
-    const result = await Category.findOneAndUpdate({ _id: id }, updateData, {
+): Promise<IAddress | null> => {
+    const result = await Address.findOneAndUpdate({ _id: id }, updateData, {
         new: true,
     });
     return result;
 };
 
 // delete result 
-const deleteCategoryById = async (id: string): Promise<ICategory | null> => {
-    const result = await Category.findByIdAndDelete({ _id: id });
+const deleteAddressById = async (id: string): Promise<IAddress | null> => {
+    const result = await Address.findByIdAndDelete({ _id: id });
     return result;
 };
 
-export const CategoryService = {
-    createCategory,
-    getAllCategoriesByPagination,
-    getCategories,
-    getSingleCategoryById,
-    updateCategoryById,
-    deleteCategoryById,
+export const AddressService = {
+    createAddress,
+    getAddresses,
+    getSingleAddressById,
+    getAllAddressByPagination,
+    getAddressByUserId,
+    updateAddressById,
+    deleteAddressById,
 };

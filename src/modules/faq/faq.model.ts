@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
 import { Schema, model } from 'mongoose';
-import { IService, ServiceModel } from './faq.interface';
+import { FaqModel, IFaq } from './faq.interface';
 
 
-const serviceSchema = new Schema<IService>(
+const faqSchema = new Schema<IFaq>(
     {
         question: {
             type: String,
@@ -26,4 +26,4 @@ const serviceSchema = new Schema<IService>(
 );
 
 
-export const Service = model<IService, ServiceModel>('Service', serviceSchema);
+export const Faq = model<IFaq, FaqModel>('Faq', faqSchema);

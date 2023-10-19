@@ -6,7 +6,7 @@ export const sendVerificationCode = async (user: IUser, otp: any) => {
     service: 'Gmail',
     auth: {
       user: 'robiulalamdx@gmail.com',
-      pass: 'astrlfxujcnfkvfc',
+      pass: 'tuiddzxxjaimzubo',
     },
   });
 

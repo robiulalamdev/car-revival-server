@@ -59,6 +59,7 @@ const emailVerification = catchAsync(async (req: Request, res: Response) => {
       config.jwt.expires_in as string
     );
     res.send({
+      success: true,
       message: "User Verified successfully",
       accessToken: token,
       status: 200,

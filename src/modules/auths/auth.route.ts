@@ -12,10 +12,10 @@ router.post(
   validateRequest(AuthValidation.createUserZodValidate),
   authController.create
 );
+router.post('/login', validateRequest(AuthValidation.loginAuthValidation), authController.loginUser);
 
 router.post('/forgot-password', validateRequest(AuthValidation.email), authController.forgetPassword);
 router.post('/email-verify', validateRequest(AuthValidation.email), authController.emailVerification);
-router.post('/login', validateRequest(AuthValidation.loginAuthValidation), authController.loginUser);
 router.get('/info', auth(ENUM_USER_ROLE.ADMIN, ENUM_USER_ROLE.SUPER_ADMIN, ENUM_USER_ROLE.CUSTOMER), authController.getAuthInfo);
 
 router.post(

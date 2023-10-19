@@ -12,6 +12,7 @@ import { jwtHelpers } from '../../helpers/jwtHelpers';
 import { Secret } from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { ILoginUserResponse, IRefreshTokenResponse } from './auth.interface';
+import { sendVerificationCode } from '../../middlewares/utils';
 
 const create = catchAsync(async (req: Request, res: Response) => {
 
@@ -24,6 +25,7 @@ const create = catchAsync(async (req: Request, res: Response) => {
     });
   } else {
     req.body["otp"] = randomstring.generate({ length: 5, charset: "numeric" });
+    await sendVerificationCode(req.body, req.body.otp)
     const result = await authService.createUser(req.body);
     sendResponse<IUser>(res, {
       success: true,
@@ -135,7 +137,8 @@ const forgetPassword = catchAsync(async (req: Request, res: Response) => {
 
   if (req.body.email && !req.body.otp) {
     if (isExist && isExist.verified === true) {
-      const otp = randomstring.generate({ length: 5, charset: "numeric" });
+      const otp: any = randomstring.generate({ length: 5, charset: "numeric" });
+      await sendVerificationCode(req.body, otp)
       const result = await User.findOneAndUpdate({ _id: isExist._id }, { otp: otp });
       sendResponse<IUser>(res, {
         success: true,

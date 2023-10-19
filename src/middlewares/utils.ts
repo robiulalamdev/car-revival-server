@@ -1,6 +1,7 @@
 import { IUser } from "../modules/users/user.interface";
+import nodemailer from "nodemailer";
 
-export const sendVerificationCode = async (user: IUser, otp: number) => {
+export const sendVerificationCode = async (user: IUser, otp: any) => {
   const transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
@@ -270,7 +271,7 @@ export const sendVerificationCode = async (user: IUser, otp: number) => {
                                   <div style="font-size: 14px; color: #003399; line-height: 160%; text-align: center; word-wrap: break-word;">
                                     <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 20px; line-height: 32px;"><strong>Get in touch</strong></span></p>
                                     <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 16px; line-height: 25.6px; color: #000000;">+11 111 333 4444</span></p>
-                                    <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 16px; line-height: 25.6px; color: #000000;">Info@turkeytrademarket.com</span></p>
+                                    <p style="font-size: 14px; line-height: 160%;"><span style="font-size: 16px; line-height: 25.6px; color: #000000;">Info@car-revival.com</span></p>
                                   </div>
       
                                 </td>

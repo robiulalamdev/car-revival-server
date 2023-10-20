@@ -1,7 +1,5 @@
 ### Car Revival
 
-## Webiste Info
-
 ## Frontend
 
 ### Tech Stack
@@ -16,10 +14,10 @@
 
 ### Frontend Links
 
-- Live Link: https://only-book.netlify.app/
-- Server Link: https://only-book.onrender.com/
-- GitHub Server https://github.com/Robiulalam76/only-book-server
-- GitHub Client Link: https://github.com/Robiulalam76/only-book-client
+- Live Link: https://car-revival.vercel.app/
+- Server Link: https://car-revival-server.onrender.com/
+- GitHub Server https://github.com/robiulalamdev/car-revival-server
+- GitHub Client Link: https://github.com/robiulalamdev/car-revival-client
 
 ## Backend
 
@@ -33,10 +31,10 @@
 
 ### Backend Links
 
-- Live Link: https://only-book.netlify.app/
-- Server Link: https://only-book.onrender.com/
-- GitHub Server https://github.com/Robiulalam76/only-book-server
-- GitHub Client Link: https://github.com/Robiulalam76/only-book-client
+- Live Link: https://car-revival.vercel.app/
+- Server Link: https://car-revival-server.onrender.com/
+- GitHub Server https://github.com/robiulalamdev/car-revival-server
+- GitHub Client Link: https://github.com/robiulalamdev/car-revival-client
 
 ## Getting Started
 
